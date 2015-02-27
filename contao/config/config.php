@@ -14,3 +14,4 @@
  */
 
 $GLOBALS['TL_HOOKS']['loadDataContainer'][]  = array('ContaoBlackforest\Backend\DCA\Article\Device', 'addLabelCallback');
+$GLOBALS['TL_HOOKS']['isVisibleElement'][]  = array('ContaoBlackforest\Frontend\Article\Device', 'visibleDevice');
