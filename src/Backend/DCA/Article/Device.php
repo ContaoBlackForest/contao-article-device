@@ -36,7 +36,7 @@ class Device extends \Backend
 	{
 		$strName = 'tl_article';
 
-		/*$callback = &$GLOBALS['TL_DCA'][$strName]['list']['label']['label_callback'];
+		$callback = &$GLOBALS['TL_DCA'][$strName]['list']['label']['label_callback'];
 
 		$reflectionClass = new \ReflectionClass($this);
 
@@ -47,16 +47,16 @@ class Device extends \Backend
 		}
 		$callback = array_values($callback);
 
-		$return = static::importStatic($callback[0])
+		$label = static::importStatic($callback[0])
 						->$callback[1](
-							$row
-						);*/
+							$row, $label
+						);
 
 		if ($row['deviceSelect'] && $row['deviceSelect'] != $GLOBALS['TL_DCA'][$strName]['fields']['deviceSelect']['default']) {
 			$label .= '<span style="color:#b3b3b3;">[' . $GLOBALS['TL_LANG'][$strName][$row['deviceSelect']] . ']</span>';
 		}
 
-		//array_insert($callback, 0, array($reflectionClass->name, __FUNCTION__));
+		array_insert($callback, 0, array($reflectionClass->name, __FUNCTION__));
 
 		return $label;
 	}
