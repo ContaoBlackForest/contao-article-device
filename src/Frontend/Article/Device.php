@@ -45,16 +45,29 @@ class Device extends \Controller
 
 	protected function articleVisible($element)
 	{
-		$method = 'is' . str_replace($element->deviceSelect[0], strtoupper($element->deviceSelect[0]), $element->deviceSelect);
+		if ($element->deviceSelect) {
+			$element->deviceSelect = unserialize($element->deviceSelect);
 
-		if (method_exists($this, $method)) {
-			return $this->$method($element);
+			if ($element->deviceSelect) {
+				$return = false;
+
+				foreach ($element->deviceSelect as $device) {
+					$method = 'is' . str_replace($device[0], strtoupper($device[0]), $device);
+
+					if (method_exists($this, $method)) {
+						$this->$method($element) && $return === false ? $return = true : '';
+					}
+				}
+
+				return $return;
+			}
 		}
 
 		return true;
 	}
 
-	protected function isDesktop() {
+	protected function isDesktop()
+	{
 		if (!$GLOBALS['container']['mobile-detect']->isMobile()) {
 			return true;
 		}
@@ -62,7 +75,8 @@ class Device extends \Controller
 		return false;
 	}
 
-	protected function isMobile() {
+	protected function isMobile()
+	{
 		if ($GLOBALS['container']['mobile-detect']->isMobile()) {
 			return true;
 		}
@@ -70,7 +84,8 @@ class Device extends \Controller
 		return false;
 	}
 
-	protected function isPhone() {
+	protected function isPhone()
+	{
 		if (!$GLOBALS['container']['mobile-detect']->isTablet() && $GLOBALS['container']['mobile-detect']->isMobile()) {
 			return true;
 		}
@@ -78,7 +93,8 @@ class Device extends \Controller
 		return false;
 	}
 
-	protected function isTablet() {
+	protected function isTablet()
+	{
 		if ($GLOBALS['container']['mobile-detect']->isTablet()) {
 			return true;
 		}

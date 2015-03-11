@@ -48,12 +48,19 @@ class Device extends \Backend
 		$callback = array_values($callback);
 
 		$label = static::importStatic($callback[0])
-						->$callback[1](
-							$row, $label
-						);
+					   ->$callback[1](
+						   $row,
+						   $label
+					   );
 
-		if ($row['deviceSelect'] && $row['deviceSelect'] != $GLOBALS['TL_DCA'][$strName]['fields']['deviceSelect']['default']) {
-			$label .= '<span style="color:#b3b3b3;">[' . $GLOBALS['TL_LANG'][$strName][$row['deviceSelect']] . ']</span>';
+		if ($row['deviceSelect']) {
+			$devices = unserialize($row['deviceSelect']);
+
+			if ($devices) {
+				foreach ($devices as $device) {
+					$label .= '<span style="color:#b3b3b3;">[' . $GLOBALS['TL_LANG'][$strName][$device] . ']</span>';
+				}
+			}
 		}
 
 		array_insert($callback, 0, array($reflectionClass->name, __FUNCTION__));
